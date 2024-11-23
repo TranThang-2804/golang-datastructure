@@ -93,7 +93,7 @@ func (l *LinkedList[T]) Remove(index int) bool {
 	return true
 }
 
-func (l *LinkedList[T]) Constains(item T) bool {
+func (l *LinkedList[T]) Contains(item T) bool {
 	for current := l.head; current != nil; current = current.next {
 		if current.value == item {
 			return true
@@ -112,6 +112,10 @@ func (l *LinkedList[T]) GetAllNode() []T {
 
 func (l *LinkedList[T]) GetSize() int {
 	return l.size
+}
+
+func (l *LinkedList[T]) IsEmpty() bool {
+	return l.size == 0
 }
 
 func (l *LinkedList[T]) Sort(compareFunction Comparator[T]) bool {
@@ -167,7 +171,7 @@ func (l *LinkedList[T]) UpdateNodeValue(index int, item T) {
 		return
 	}
 
-  current := l.head
+	current := l.head
 	for i := 0; i != index; i, current = i+1, current.next {
 	}
 
@@ -180,4 +184,10 @@ func (l *LinkedList[T]) String() {
 	for currentItem := l.head; currentItem != nil; currentItem = currentItem.next {
 		str += fmt.Sprintf("%v", currentItem.value)
 	}
+}
+
+func (list *LinkedList[T]) Clear() {
+	list.size = 0
+	list.head = nil
+	list.last = nil
 }
