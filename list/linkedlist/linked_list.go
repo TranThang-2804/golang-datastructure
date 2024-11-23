@@ -3,19 +3,19 @@ package linkedlist
 import "fmt"
 
 // Node is a single element in a linked list.
-type Node[T any] struct {
+type Node[T comparable] struct {
 	value T
 	next  *Node[T]
 }
 
-type LinkedList[T any] struct {
+type LinkedList[T comparable] struct {
 	head *Node[T]
 	last *Node[T]
 	size int
 }
 
 // Create a new empty linked list
-func New[T any]() *LinkedList[T] {
+func New[T comparable]() *LinkedList[T] {
 	return &LinkedList[T]{head: nil, last: nil, size: 0}
 }
 
@@ -66,14 +66,15 @@ func (l *LinkedList[T]) Remove(index int) bool {
 		return false
 	}
 
+	// current node starts at index 1
 	prevNode := l.head
 	currentNode := l.head.next
 
+	// If the index is 0, then we need to remove the head
 	if index == 0 {
 		l.head = prevNode.next
 		prevNode = nil
 	} else {
-		// current node start at index 1
 		for i := 1; i < index; i++ {
 			prevNode = prevNode.next
 			currentNode = currentNode.next
@@ -85,6 +86,15 @@ func (l *LinkedList[T]) Remove(index int) bool {
 
 	l.size--
 	return true
+}
+
+func (l *LinkedList[T]) Constains(item T) bool {
+	for current := l.head; current != nil; current = current.next {
+		if current.value == item {
+			return true
+		}
+	}
+	return false
 }
 
 // Go through the whole list and return the value
