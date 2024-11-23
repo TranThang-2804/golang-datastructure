@@ -47,9 +47,44 @@ func (l *LinkedList[T]) Prepend(items ...T) {
 	}
 }
 
-// Delete the item of the link list
-func (c *Node[T]) Delete(value T) {
+func (l *LinkedList[T]) Get(index int) (T, bool) {
+	if index < 0 || index >= l.size {
+		var t T
+		return t, false
+	}
 
+	node := l.head
+	for i := 0; i != index; i, node = i+1, node.next {
+	}
+
+	return node.value, true
+}
+
+// Remove the item of the link list
+func (l *LinkedList[T]) Remove(index int) bool {
+	if index < 0 || index >= l.size {
+		return false
+	}
+
+	prevNode := l.head
+	currentNode := l.head.next
+
+	if index == 0 {
+		l.head = prevNode.next
+		prevNode = nil
+	} else {
+		// current node start at index 1
+		for i := 1; i < index; i++ {
+			prevNode = prevNode.next
+			currentNode = currentNode.next
+		}
+
+		prevNode.next = currentNode.next
+		currentNode = nil
+	}
+
+	l.size--
+	return true
 }
 
 // Go through the whole list and return the value
