@@ -97,10 +97,18 @@ func (l *LinkedList[T]) Constains(item T) bool {
 	return false
 }
 
+func (l *LinkedList[T]) GetAllNode() []T {
+	var items []T
+	for current := l.head; current != nil; current = current.next {
+		items = append(items, current.value)
+	}
+	return items
+}
+
 // Go through the whole list and return the value
-func (n *Node[T]) Traverse() {
+func (l *LinkedList[T]) TraverseOutput() {
 	str := "LinkedList\n"
-	for n != nil {
-		str += fmt.Sprintf("%v", n.value)
+	for currentItem := l.head; currentItem != nil; currentItem = currentItem.next {
+		str += fmt.Sprintf("%v", currentItem.value)
 	}
 }
