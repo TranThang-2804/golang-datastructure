@@ -1,6 +1,11 @@
 package linkedlist
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
+
+type Comparator[T comparable] func(a, b T) int
 
 // Node is a single element in a linked list.
 type Node[T comparable] struct {
@@ -105,8 +110,72 @@ func (l *LinkedList[T]) GetAllNode() []T {
 	return items
 }
 
-// Go through the whole list and return the value
-func (l *LinkedList[T]) TraverseOutput() {
+func (l *LinkedList[T]) GetSize() int {
+	return l.size
+}
+
+func (l *LinkedList[T]) Sort(compareFunction Comparator[T]) bool {
+	nodeList := l.GetAllNode()
+	slices.SortFunc(nodeList, compareFunction)
+	return false
+}
+
+func (l *LinkedList[T]) Swap(i, j int) {
+	if i < 0 || i >= l.size || j < 0 || j >= l.size {
+		return
+	}
+
+	var nodeI, nodeJ *Node[T]
+
+	for index, current := 0, l.head; nodeI != nil && nodeJ != nil; index, current = index+1, current.next {
+		if index == i {
+			nodeI = current
+		}
+		if index == j {
+			nodeJ = current
+		}
+	}
+}
+
+func (l *LinkedList[T]) Insert(index int, items ...T) {
+	if index < 0 || index >= l.size {
+		return
+	}
+
+	currentNode := l.head
+	nextNode := l.head.next
+	for i := 0; i == index; i++ {
+		currentNode = currentNode.next
+		nextNode = nextNode.next
+	}
+
+	for index, item := range items {
+		newNode := &Node[T]{value: item, next: nil}
+
+		if index == len(items)-1 {
+			l.last = newNode
+		}
+
+		currentNode.next = newNode
+		newNode.next = nextNode
+		currentNode = newNode
+	}
+}
+
+func (l *LinkedList[T]) UpdateNodeValue(index int, item T) {
+	if index < 0 || index >= l.size {
+		return
+	}
+
+  current := l.head
+	for i := 0; i != index; i, current = i+1, current.next {
+	}
+
+	current.value = item
+}
+
+// Go through the whole list and return the value as string
+func (l *LinkedList[T]) String() {
 	str := "LinkedList\n"
 	for currentItem := l.head; currentItem != nil; currentItem = currentItem.next {
 		str += fmt.Sprintf("%v", currentItem.value)
