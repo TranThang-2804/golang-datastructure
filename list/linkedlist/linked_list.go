@@ -40,8 +40,8 @@ func (l *LinkedList[T]) Append(items ...T) {
 
 // Append a new node to the beginning of linked list
 func (l *LinkedList[T]) Prepend(items ...T) {
-	for _, item := range items {
-		newNode := &Node[T]{value: item, next: nil}
+	for i := len(items) - 1; i >= 0; i-- {
+		newNode := &Node[T]{value: items[i], next: nil}
 		if l.size == 0 {
 			l.last = newNode
 		} else {
@@ -131,7 +131,7 @@ func (l *LinkedList[T]) Swap(i, j int) {
 
 	var nodeI, nodeJ *Node[T]
 
-	for index, current := 0, l.head; nodeI != nil && nodeJ != nil; index, current = index+1, current.next {
+	for index, current := 0, l.head; current != nil; index, current = index+1, current.next {
 		if index == i {
 			nodeI = current
 		}
@@ -139,6 +139,8 @@ func (l *LinkedList[T]) Swap(i, j int) {
 			nodeJ = current
 		}
 	}
+
+	nodeI.value, nodeJ.value = nodeJ.value, nodeI.value
 }
 
 func (l *LinkedList[T]) Insert(index int, items ...T) {
