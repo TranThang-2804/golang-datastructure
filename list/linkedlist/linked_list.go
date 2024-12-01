@@ -118,10 +118,11 @@ func (l *LinkedList[T]) IsEmpty() bool {
 	return l.size == 0
 }
 
-func (l *LinkedList[T]) Sort(compareFunction Comparator[T]) bool {
+func (l *LinkedList[T]) Sort(compareFunction Comparator[T]) {
 	nodeList := l.GetAllNode()
 	slices.SortFunc(nodeList, compareFunction)
-	return false
+  l.Clear()
+  l.Append(nodeList...)
 }
 
 func (l *LinkedList[T]) Swap(i, j int) {
