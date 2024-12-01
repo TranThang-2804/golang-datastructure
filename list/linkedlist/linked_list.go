@@ -180,9 +180,11 @@ func (l *LinkedList[T]) Insert(index int, items ...T) bool {
 	return true
 }
 
-func (l *LinkedList[T]) UpdateNodeValue(index int, item T) {
+// Update the value of the node at the specified index with the new value
+// return true if the value is updated successfully else return false
+func (l *LinkedList[T]) UpdateNodeValue(index int, item T) bool {
 	if index < 0 || index >= l.size {
-		return
+		return false
 	}
 
 	current := l.head
@@ -190,6 +192,7 @@ func (l *LinkedList[T]) UpdateNodeValue(index int, item T) {
 	}
 
 	current.value = item
+  return true
 }
 
 // Go through the whole list and return the value as string

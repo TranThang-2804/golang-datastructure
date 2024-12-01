@@ -233,10 +233,11 @@ func TestListInsert(t *testing.T) {
 
 func TestListSet(t *testing.T) {
 	list := New[string]()
+  list.Append("c", "d", "k")
 	list.UpdateNodeValue(0, "a")
 	list.UpdateNodeValue(1, "b")
-	if actualValue := list.GetSize(); actualValue != 2 {
-		t.Errorf("Got %v expected %v", actualValue, 2)
+	if actualValue := list.GetSize(); actualValue != 3 {
+		t.Errorf("Got %v expected %v", actualValue, 3)
 	}
 	list.UpdateNodeValue(2, "c") // append
 	if actualValue := list.GetSize(); actualValue != 3 {
