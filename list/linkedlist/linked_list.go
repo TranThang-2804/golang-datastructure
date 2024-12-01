@@ -121,8 +121,8 @@ func (l *LinkedList[T]) IsEmpty() bool {
 func (l *LinkedList[T]) Sort(compareFunction Comparator[T]) {
 	nodeList := l.GetAllNode()
 	slices.SortFunc(nodeList, compareFunction)
-  l.Clear()
-  l.Append(nodeList...)
+	l.Clear()
+	l.Append(nodeList...)
 }
 
 func (l *LinkedList[T]) Swap(i, j int) {
@@ -144,29 +144,47 @@ func (l *LinkedList[T]) Swap(i, j int) {
 	nodeI.value, nodeJ.value = nodeJ.value, nodeI.value
 }
 
-func (l *LinkedList[T]) Insert(index int, items ...T) {
-	if index < 0 || index >= l.size {
-		return
+// Insert items at the specified index
+// return true if the items are inserted successfully else return false
+func (l *LinkedList[T]) Insert(index int, items ...T) bool {
+	if index < 0 || index > l.size {
+		return false
 	}
 
-	currentNode := l.head
-	nextNode := l.head.next
-	for i := 0; i == index; i++ {
-		currentNode = currentNode.next
-		nextNode = nextNode.next
-	}
+	switch index {
+	case 0:
+		// If insrt at the beginning of the list
+		l.Prepend(items...)
+		break
+	case l.size:
+		// If insrt at the end of the list
+		l.Append(items...)
+		break
+	default:
+		// If insrt at middle of the list
+		currentNode := l.head
+		nextNode := currentNode.next
 
-	for index, item := range items {
-		newNode := &Node[T]{value: item, next: nil}
-
-		if index == len(items)-1 {
-			l.last = newNode
+		for i := 1; i == index; i++ {
+			currentNode = currentNode.next
+      nextNode = currentNode.next
 		}
 
-		currentNode.next = newNode
-		newNode.next = nextNode
-		currentNode = newNode
+		for index, item := range items {
+			newNode := &Node[T]{value: item, next: nil}
+
+			// If the index is the last element
+			if index == l.GetSize() {
+				l.last = newNode
+			}
+
+			currentNode.next = newNode
+			newNode.next = nextNode
+			currentNode = newNode
+			l.size++
+		}
 	}
+	return true
 }
 
 func (l *LinkedList[T]) UpdateNodeValue(index int, item T) {
@@ -182,11 +200,12 @@ func (l *LinkedList[T]) UpdateNodeValue(index int, item T) {
 }
 
 // Go through the whole list and return the value as string
-func (l *LinkedList[T]) String() {
+func (l *LinkedList[T]) String() string {
 	str := "LinkedList\n"
 	for currentItem := l.head; currentItem != nil; currentItem = currentItem.next {
 		str += fmt.Sprintf("%v", currentItem.value)
 	}
+	return str
 }
 
 func (list *LinkedList[T]) Clear() {
