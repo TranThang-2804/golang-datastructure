@@ -161,25 +161,18 @@ func (l *LinkedList[T]) Insert(index int, items ...T) bool {
 		l.Append(items...)
 		break
 	default:
-		// If insrt at middle of the list
+		// Insert in the middle of the list
 		currentNode := l.head
-		nextNode := currentNode.next
 
-		for i := 1; i == index; i++ {
+    // Finding the node corresponding to the index
+		for i := 1; i < index; i++ {
 			currentNode = currentNode.next
-      nextNode = currentNode.next
 		}
 
-		for index, item := range items {
-			newNode := &Node[T]{value: item, next: nil}
-
-			// If the index is the last element
-			if index == l.GetSize() {
-				l.last = newNode
-			}
-
+    // Inserting the items
+		for _, item := range items {
+			newNode := &Node[T]{value: item, next: currentNode.next}
 			currentNode.next = newNode
-			newNode.next = nextNode
 			currentNode = newNode
 			l.size++
 		}
