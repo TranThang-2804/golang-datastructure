@@ -13,6 +13,7 @@ type Node[T comparable] struct {
 	next  *Node[T]
 }
 
+// LinkedList struct
 type LinkedList[T comparable] struct {
 	head *Node[T]
 	last *Node[T]
@@ -52,6 +53,8 @@ func (l *LinkedList[T]) Prepend(items ...T) {
 	}
 }
 
+// Get the item of the link list at the specified
+// err return true if the item is found else return false
 func (l *LinkedList[T]) Get(index int) (T, bool) {
 	if index < 0 || index >= l.size {
 		var t T
@@ -93,6 +96,8 @@ func (l *LinkedList[T]) Remove(index int) bool {
 	return true
 }
 
+// Check if the linked list contains the item
+// return true if the item is found else return false
 func (l *LinkedList[T]) Contains(item T) bool {
 	for current := l.head; current != nil; current = current.next {
 		if current.value == item {
@@ -102,6 +107,7 @@ func (l *LinkedList[T]) Contains(item T) bool {
 	return false
 }
 
+// Return an array of all the items in the linked list
 func (l *LinkedList[T]) GetAllNode() []T {
 	var items []T
 	for current := l.head; current != nil; current = current.next {
@@ -110,14 +116,17 @@ func (l *LinkedList[T]) GetAllNode() []T {
 	return items
 }
 
+// Get the size of the linked list
 func (l *LinkedList[T]) GetSize() int {
 	return l.size
 }
 
+// Check if the linked list is empty
 func (l *LinkedList[T]) IsEmpty() bool {
 	return l.size == 0
 }
 
+// Sort the linked list with the input is a compareFunction
 func (l *LinkedList[T]) Sort(compareFunction Comparator[T]) {
 	nodeList := l.GetAllNode()
 	slices.SortFunc(nodeList, compareFunction)
@@ -125,6 +134,7 @@ func (l *LinkedList[T]) Sort(compareFunction Comparator[T]) {
 	l.Append(nodeList...)
 }
 
+// Swap 2 items in the linked list
 func (l *LinkedList[T]) Swap(i, j int) {
 	if i < 0 || i >= l.size || j < 0 || j >= l.size {
 		return
@@ -204,6 +214,7 @@ func (l *LinkedList[T]) String() string {
 	return str
 }
 
+// Clear all item in the linked list
 func (list *LinkedList[T]) Clear() {
 	list.size = 0
 	list.head = nil
