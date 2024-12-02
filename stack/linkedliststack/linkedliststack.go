@@ -7,6 +7,11 @@ type Stack[T comparable] struct {
 	list *linkedlist.LinkedList[T]
 }
 
+// Constructor for creating linkedlist stack
+func New[T comparable]() *Stack[T] {
+	return &Stack[T]{list: linkedlist.New[T]()}
+}
+
 // Push the items into the stack
 func (s *Stack[T]) Push(values ...T) {
 	s.list.Prepend(values...)
