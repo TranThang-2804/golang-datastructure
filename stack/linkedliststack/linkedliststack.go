@@ -1,6 +1,11 @@
 package linkedliststack
 
-import "github.com/TranThang-2804/golangds/list/linkedlist"
+import (
+	"fmt"
+	"strings"
+
+	"github.com/TranThang-2804/golangds/list/linkedlist"
+)
 
 // This is the stack implementation using linked list
 type Stack[T comparable] struct {
@@ -28,16 +33,21 @@ func (s *Stack[T]) Peek() (T, bool) {
 // return the value of the item and true if
 // the item is found else return false
 func (s *Stack[T]) Pop() (T, bool) {
-	value, err := s.Peek()
-	if err {
+	value, succeed := s.Peek()
+	if !succeed {
 		var zeroValue T
 		return zeroValue, false
 	}
-	if s.list.Remove(0) {
+	if !s.list.Remove(0) {
 		var zeroValue T
 		return zeroValue, false
 	}
 	return value, true
+}
+
+// Get all the values of the stack
+func (s *Stack[T]) Values() []T {
+	return s.list.GetAllNode()
 }
 
 // Empty the stack
@@ -57,5 +67,11 @@ func (s *Stack[T]) IsEmpty() bool {
 
 // Return the string representation of the stack
 func (s *Stack[T]) String() string {
-	return s.list.String()
+	str := "LinkedListStack\n"
+	values := []string{}
+	for _, value := range s.Values() {
+		values = append(values, fmt.Sprintf("%v", value))
+	}
+	str += strings.Join(values, ", ")
+	return str
 }
