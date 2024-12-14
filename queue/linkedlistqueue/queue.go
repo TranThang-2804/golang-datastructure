@@ -14,7 +14,7 @@ type LinkedListQueue[T comparable] struct {
 
 // New creates a new empty linked list queue
 func New[T comparable]() *LinkedListQueue[T] {
-	return &LinkedListQueue[T]{}
+	return &LinkedListQueue[T]{linkedList: linkedlist.New[T]()}
 }
 
 // Enqueue adds a value to the end of the queue
@@ -63,7 +63,7 @@ func (q *LinkedListQueue[T]) IsEmpty() bool {
 
 // Return the string representation of the stack
 func (s *LinkedListQueue[T]) String() string {
-	str := "LinkedListStack\n"
+	str := "LinkedListQueue\n"
 	values := []string{}
 	for _, value := range s.Values() {
 		values = append(values, fmt.Sprintf("%v", value))
