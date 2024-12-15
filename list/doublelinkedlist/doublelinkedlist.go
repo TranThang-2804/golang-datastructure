@@ -1,11 +1,11 @@
-package linkedlist
+package doublelinkedlist
 
 import (
 	"fmt"
 	"slices"
-
-	"github.com/TranThang-2804/golangds/list"
 )
+
+type Comparator[T comparable] func(a, b T) int
 
 // Node is a single element in a linked list.
 type Node[T comparable] struct {
@@ -127,7 +127,7 @@ func (l *LinkedList[T]) IsEmpty() bool {
 }
 
 // Sort the linked list with the input is a compareFunction
-func (l *LinkedList[T]) Sort(compareFunction list.Comparator[T]) {
+func (l *LinkedList[T]) Sort(compareFunction Comparator[T]) {
 	nodeList := l.GetAllNode()
 	slices.SortFunc(nodeList, compareFunction)
 	l.Clear()
@@ -174,12 +174,12 @@ func (l *LinkedList[T]) Insert(index int, items ...T) bool {
 		// Insert in the middle of the list
 		currentNode := l.head
 
-		// Finding the node corresponding to the index
+    // Finding the node corresponding to the index
 		for i := 1; i < index; i++ {
 			currentNode = currentNode.next
 		}
 
-		// Inserting the items
+    // Inserting the items
 		for _, item := range items {
 			newNode := &Node[T]{value: item, next: currentNode.next}
 			currentNode.next = newNode
@@ -202,7 +202,7 @@ func (l *LinkedList[T]) UpdateNodeValue(index int, item T) bool {
 	}
 
 	current.value = item
-	return true
+  return true
 }
 
 // Go through the whole list and return the value as string

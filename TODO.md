@@ -1,10 +1,6 @@
 linkedlist
-    arraylinkedlist
     doublelinkedlist
-stack
-    arraystack
 queue
-    arrayqueue
     circularbuffer
     priorityqueue
 map
