@@ -126,7 +126,6 @@ func (l *LinkedList[T]) IsEmpty() bool {
 	return l.size == 0
 }
 
-// Sort the linked list with the input is a compareFunction
 func (l *LinkedList[T]) Sort(compareFunction list.Comparator[T]) {
 	nodeList := l.GetAllNode()
 	slices.SortFunc(nodeList, compareFunction)

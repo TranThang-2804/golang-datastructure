@@ -11,16 +11,21 @@ package list
 
 import ()
 
-type Comparator[T comparable] func(a, b T) int
-
 // List interface that all lists implement
 type List[T comparable] interface {
+	Append(items ...T)
+	Prepend(items ...T)
 	Get(index int) (T, bool)
-	Remove(index int)
-	Add(values ...T)
-	Contains(values ...T) bool
+	Remove(index int) bool
+	Contains(item T) bool
+	GetAllNode() []T
+	GetSize() int
+	IsEmpty() bool
 	Sort(compareFunction Comparator[T])
-	Swap(index1, index2 int)
-	Insert(index int, values ...T)
+	Swap(item1, item2 int)
+	Insert(index int, items ...T) bool
+	UpdateNodeValue(index int, item T) bool
 	Set(index int, value T)
+  String() string
+  Clear()
 }
