@@ -11,22 +11,23 @@ type Comparator[T comparable] func(a, b T) int
 type Node[T comparable] struct {
 	value T
 	next  *Node[T]
+	prev  *Node[T]
 }
 
-// LinkedList struct
-type LinkedList[T comparable] struct {
+// DoubleLinkedList struct
+type DoubleLinkedList[T comparable] struct {
 	head *Node[T]
 	last *Node[T]
 	size int
 }
 
 // Create a new empty linked list
-func New[T comparable]() *LinkedList[T] {
-	return &LinkedList[T]{head: nil, last: nil, size: 0}
+func New[T comparable]() *DoubleLinkedList[T] {
+	return &DoubleLinkedList[T]{head: nil, last: nil, size: 0}
 }
 
 // Append a new node to the end of linked list
-func (l *LinkedList[T]) Append(items ...T) {
+func (l *DoubleLinkedList[T]) Append(items ...T) {
 	for _, item := range items {
 		newNode := &Node[T]{value: item, next: nil}
 		if l.size == 0 {
@@ -40,7 +41,7 @@ func (l *LinkedList[T]) Append(items ...T) {
 }
 
 // Append a new node to the beginning of linked list
-func (l *LinkedList[T]) Prepend(items ...T) {
+func (l *DoubleLinkedList[T]) Prepend(items ...T) {
 	for i := len(items) - 1; i >= 0; i-- {
 		newNode := &Node[T]{value: items[i], next: nil}
 		if l.size == 0 {
@@ -55,7 +56,7 @@ func (l *LinkedList[T]) Prepend(items ...T) {
 
 // Get the item of the link list at the specified
 // err return true if the item is found else return false
-func (l *LinkedList[T]) Get(index int) (T, bool) {
+func (l *DoubleLinkedList[T]) Get(index int) (T, bool) {
 	if index < 0 || index >= l.size {
 		var t T
 		return t, false
@@ -69,7 +70,7 @@ func (l *LinkedList[T]) Get(index int) (T, bool) {
 }
 
 // Remove the item of the link list
-func (l *LinkedList[T]) Remove(index int) bool {
+func (l *DoubleLinkedList[T]) Remove(index int) bool {
 	if index < 0 || index >= l.size {
 		return false
 	}
@@ -98,7 +99,7 @@ func (l *LinkedList[T]) Remove(index int) bool {
 
 // Check if the linked list contains the item
 // return true if the item is found else return false
-func (l *LinkedList[T]) Contains(item T) bool {
+func (l *DoubleLinkedList[T]) Contains(item T) bool {
 	for current := l.head; current != nil; current = current.next {
 		if current.value == item {
 			return true
@@ -108,7 +109,7 @@ func (l *LinkedList[T]) Contains(item T) bool {
 }
 
 // Return an array of all the items in the linked list
-func (l *LinkedList[T]) GetAllNode() []T {
+func (l *DoubleLinkedList[T]) GetAllNode() []T {
 	var items []T
 	for current := l.head; current != nil; current = current.next {
 		items = append(items, current.value)
@@ -117,17 +118,17 @@ func (l *LinkedList[T]) GetAllNode() []T {
 }
 
 // Get the size of the linked list
-func (l *LinkedList[T]) GetSize() int {
+func (l *DoubleLinkedList[T]) GetSize() int {
 	return l.size
 }
 
 // Check if the linked list is empty
-func (l *LinkedList[T]) IsEmpty() bool {
+func (l *DoubleLinkedList[T]) IsEmpty() bool {
 	return l.size == 0
 }
 
 // Sort the linked list with the input is a compareFunction
-func (l *LinkedList[T]) Sort(compareFunction Comparator[T]) {
+func (l *DoubleLinkedList[T]) Sort(compareFunction Comparator[T]) {
 	nodeList := l.GetAllNode()
 	slices.SortFunc(nodeList, compareFunction)
 	l.Clear()
@@ -135,7 +136,7 @@ func (l *LinkedList[T]) Sort(compareFunction Comparator[T]) {
 }
 
 // Swap 2 items in the linked list
-func (l *LinkedList[T]) Swap(i, j int) {
+func (l *DoubleLinkedList[T]) Swap(i, j int) {
 	if i < 0 || i >= l.size || j < 0 || j >= l.size {
 		return
 	}
@@ -156,7 +157,7 @@ func (l *LinkedList[T]) Swap(i, j int) {
 
 // Insert items at the specified index
 // return true if the items are inserted successfully else return false
-func (l *LinkedList[T]) Insert(index int, items ...T) bool {
+func (l *DoubleLinkedList[T]) Insert(index int, items ...T) bool {
 	if index < 0 || index > l.size {
 		return false
 	}
@@ -192,7 +193,7 @@ func (l *LinkedList[T]) Insert(index int, items ...T) bool {
 
 // Update the value of the node at the specified index with the new value
 // return true if the value is updated successfully else return false
-func (l *LinkedList[T]) UpdateNodeValue(index int, item T) bool {
+func (l *DoubleLinkedList[T]) UpdateNodeValue(index int, item T) bool {
 	if index < 0 || index >= l.size {
 		return false
 	}
@@ -206,7 +207,7 @@ func (l *LinkedList[T]) UpdateNodeValue(index int, item T) bool {
 }
 
 // Go through the whole list and return the value as string
-func (l *LinkedList[T]) String() string {
+func (l *DoubleLinkedList[T]) String() string {
 	str := "LinkedList\n"
 	for currentItem := l.head; currentItem != nil; currentItem = currentItem.next {
 		str += fmt.Sprintf("%v", currentItem.value)
@@ -215,7 +216,7 @@ func (l *LinkedList[T]) String() string {
 }
 
 // Clear all item in the linked list
-func (list *LinkedList[T]) Clear() {
+func (list *DoubleLinkedList[T]) Clear() {
 	list.size = 0
 	list.head = nil
 	list.last = nil
