@@ -33,7 +33,7 @@ func (l *DoubleLinkedList[T]) Append(items ...T) {
 		if l.size == 0 {
 			l.head = newNode
 		} else {
-      newNode.prev = l.last
+			newNode.prev = l.last
 			l.last.next = newNode
 		}
 		l.last = newNode
@@ -44,10 +44,11 @@ func (l *DoubleLinkedList[T]) Append(items ...T) {
 // Append a new node to the beginning of linked list
 func (l *DoubleLinkedList[T]) Prepend(items ...T) {
 	for i := len(items) - 1; i >= 0; i-- {
-		newNode := &Node[T]{value: items[i], next: nil}
+		newNode := &Node[T]{value: items[i], next: nil, prev: nil}
 		if l.size == 0 {
 			l.last = newNode
 		} else {
+			l.head.prev = newNode
 			newNode.next = l.head
 		}
 		l.head = newNode
@@ -76,22 +77,38 @@ func (l *DoubleLinkedList[T]) Remove(index int) bool {
 		return false
 	}
 
+	// If the linked list has only 1 item
+	if l.size == 1 {
+		l.Clear()
+		return true
+	}
+
 	// current node starts at index 1
 	prevNode := l.head
 	currentNode := l.head.next
 
-	// If the index is 0, then we need to remove the head
-	if index == 0 {
+	switch index {
+	case 0:
+		// If the index is 0, then we need to remove the head
 		l.head = prevNode.next
+		l.head.prev = nil
 		prevNode = nil
-	} else {
+		break
+	case l.size - 1:
+		// If the index is the last item
+		l.last = l.last.prev
+		l.last.next = nil
+	default:
+		// If the index is in the middle of the list
 		for i := 1; i < index; i++ {
 			prevNode = prevNode.next
 			currentNode = currentNode.next
 		}
 
 		prevNode.next = currentNode.next
+		prevNode.next.prev = prevNode
 		currentNode = nil
+		break
 	}
 
 	l.size--
@@ -183,7 +200,7 @@ func (l *DoubleLinkedList[T]) Insert(index int, items ...T) bool {
 
 		// Inserting the items
 		for _, item := range items {
-			newNode := &Node[T]{value: item, next: currentNode.next}
+    newNode := &Node[T]{value: item, next: currentNode.next, prev: currentNode}
 			currentNode.next = newNode
 			currentNode = newNode
 			l.size++
