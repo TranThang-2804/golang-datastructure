@@ -25,7 +25,6 @@ type List[T comparable] interface {
 	Swap(item1, item2 int)
 	Insert(index int, items ...T) bool
 	UpdateNodeValue(index int, item T) bool
-	Set(index int, value T)
-  String() string
-  Clear()
+	String() string
+	Clear()
 }
