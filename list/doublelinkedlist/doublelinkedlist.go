@@ -29,10 +29,11 @@ func New[T comparable]() *DoubleLinkedList[T] {
 // Append a new node to the end of linked list
 func (l *DoubleLinkedList[T]) Append(items ...T) {
 	for _, item := range items {
-		newNode := &Node[T]{value: item, next: nil}
+		newNode := &Node[T]{value: item, next: nil, prev: nil}
 		if l.size == 0 {
 			l.head = newNode
 		} else {
+      newNode.prev = l.last
 			l.last.next = newNode
 		}
 		l.last = newNode
@@ -175,12 +176,12 @@ func (l *DoubleLinkedList[T]) Insert(index int, items ...T) bool {
 		// Insert in the middle of the list
 		currentNode := l.head
 
-    // Finding the node corresponding to the index
+		// Finding the node corresponding to the index
 		for i := 1; i < index; i++ {
 			currentNode = currentNode.next
 		}
 
-    // Inserting the items
+		// Inserting the items
 		for _, item := range items {
 			newNode := &Node[T]{value: item, next: currentNode.next}
 			currentNode.next = newNode
@@ -203,12 +204,12 @@ func (l *DoubleLinkedList[T]) UpdateNodeValue(index int, item T) bool {
 	}
 
 	current.value = item
-  return true
+	return true
 }
 
 // Go through the whole list and return the value as string
 func (l *DoubleLinkedList[T]) String() string {
-	str := "LinkedList\n"
+	str := "DoubleLinkedList\n"
 	for currentItem := l.head; currentItem != nil; currentItem = currentItem.next {
 		str += fmt.Sprintf("%v", currentItem.value)
 	}

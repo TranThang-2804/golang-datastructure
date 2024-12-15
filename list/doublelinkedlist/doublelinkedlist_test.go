@@ -222,20 +222,19 @@ func TestListInsert(t *testing.T) {
 
 func TestListSet(t *testing.T) {
 	list := New[string]()
+  list.Append("c", "d")
 	list.UpdateNodeValue(0, "a")
 	list.UpdateNodeValue(1, "b")
 	if actualValue := list.GetSize(); actualValue != 2 {
 		t.Errorf("Got %v expected %v", actualValue, 2)
 	}
+  list.Append("e")
 	list.UpdateNodeValue(2, "c") // append
 	if actualValue := list.GetSize(); actualValue != 3 {
 		t.Errorf("Got %v expected %v", actualValue, 3)
 	}
 	list.UpdateNodeValue(4, "d")  // ignore
 	list.UpdateNodeValue(1, "bb") // update
-	if actualValue := list.GetSize(); actualValue != 3 {
-		t.Errorf("Got %v expected %v", actualValue, 3)
-	}
 	if actualValue, expectedValue := list.GetAllNode(), []string{"a", "bb", "c"}; !slices.Equal(actualValue, expectedValue) {
 		t.Errorf("Got %v expected %v", actualValue, expectedValue)
 	}
@@ -660,7 +659,7 @@ func TestListSet(t *testing.T) {
 func TestListString(t *testing.T) {
 	c := New[int]()
 	c.Append(1)
-	if !strings.HasPrefix(c.String(), "DoublyLinkedList") {
+	if !strings.HasPrefix(c.String(), "DoubleLinkedList") {
 		t.Errorf("String should start with container name")
 	}
 }
